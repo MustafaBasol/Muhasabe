@@ -20,7 +20,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ currentPage, onPageChange, invoices = [], expenses = [] }: SidebarProps) {
-  // Calculate dynamic counts for active (non-archived) items
+  // Count outstanding invoices and pending expenses for badges
   const activeInvoiceCount = invoices.filter(invoice => 
     invoice.status !== 'paid' && invoice.status !== 'overdue'
   ).length;
