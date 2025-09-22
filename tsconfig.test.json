@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist-tests",
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "src/utils/number.ts",
+    "src/utils/number.test.ts",
+    "src/utils/number.js.d.ts"
+  ]
+}
