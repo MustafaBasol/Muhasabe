@@ -1,4 +1,5 @@
 import React from 'react';
+import { parseCurrencyToNumber } from '../utils/number';
 
 interface ChartCardProps {
   sales?: any[];
@@ -39,7 +40,10 @@ export default function ChartCard({ sales = [], expenses = [], invoices = [] }: 
       const invoiceDate = new Date(invoice.issueDate);
       return invoiceDate.getMonth() === monthInfo.monthIndex && invoiceDate.getFullYear() === monthInfo.year;
     });
-    income += paidInvoices.reduce((sum, invoice) => sum + (Number(invoice.total) || 0), 0);
+    income += paidInvoices.reduce(
+      (sum, invoice) => sum + parseCurrencyToNumber(invoice.total),
+      0
+    );
     
     // 2. Completed sales that haven't been converted to invoices
     const completedSales = sales.filter(sale => {
@@ -56,7 +60,10 @@ export default function ChartCard({ sales = [], expenses = [], invoices = [] }: 
       
       return !hasInvoice; // Only include if no invoice exists
     });
-    income += completedSales.reduce((sum, sale) => sum + (Number(sale.amount) || 0), 0);
+    income += completedSales.reduce(
+      (sum, sale) => sum + parseCurrencyToNumber(sale.amount),
+      0
+    );
     
     // 3. Get paid expenses for this month
     const paidExpenses = expenses.filter(expense => {
@@ -64,7 +71,10 @@ export default function ChartCard({ sales = [], expenses = [], invoices = [] }: 
       const expenseDate = new Date(expense.expenseDate);
       return expenseDate.getMonth() === monthInfo.monthIndex && expenseDate.getFullYear() === monthInfo.year;
     });
-    const expense = paidExpenses.reduce((sum, exp) => sum + (Number(exp.amount) || 0), 0);
+    const expense = paidExpenses.reduce(
+      (sum, exp) => sum + parseCurrencyToNumber(exp.amount),
+      0
+    );
 
     return {
       month: monthInfo.month,
